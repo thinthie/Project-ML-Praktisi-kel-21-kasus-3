@@ -1,0 +1,28 @@
+{
+    "model_name": "Random Forest Regressor",
+    "target": "rul_hari",
+    "features": [
+        "tipe_motor",
+        "lokasi",
+        "hari_operasi",
+        "beban_pct",
+        "arus_A",
+        "tegangan_V",
+        "suhu_belitan_C",
+        "getaran_rms_mm_s",
+        "kecepatan_rpm"
+    ],
+    "metrics": {
+        "mae_all": 42.062598991296554,
+        "mae_rul_le_60": 8.751005649214253,
+        "baseline_mae_all": 50.25604244727684,
+        "baseline_mae_rul_le_60": 34.199448759987625
+    },
+    "data_split": {
+        "method": "GroupShuffleSplit",
+        "test_size": 0.2,
+        "random_state": 42,
+        "train_motors": 917,
+        "test_motors": 230
+    }
+}

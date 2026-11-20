@@ -10,19 +10,24 @@
 
 ## Masalah dan pengguna
 
-[Dua atau tiga kalimat: siapa penggunanya dan keputusan apa yang dibantu oleh model ini.]
+Proyek ini ditujukan untuk membantu manajer dan tim pemeliharaan motor induksi di lingkungan industri, khususnya dalam merencanakan pemeriksaan dan penggantian motor. Model memprediksi Remaining Useful Life (RUL) dalam satuan hari berdasarkan tipe motor, lokasi, lama operasi, beban, arus, tegangan, suhu belitan, getaran, dan kecepatan motor. Hasil prediksi dapat digunakan sebagai informasi pendukung dalam menentukan prioritas pemeliharaan.
 
 ## Data dan pembersihan
 
 | Masalah yang ditemukan | Jumlah baris | Cara menangani |
 |---|---|---|
-| [misalnya baris duplikat] | [angka] | [misalnya dihapus dengan drop_duplicates] |
+| Baris duplikat | 493 | Dihapus menggunakan drop_duplicates() |
+| Nilai kosong pada arus_A | 1.588 setelah penghapusan duplikat | Ditangani menggunakan median melalui SimpleImputer |
+| Nilai kosong pada suhu_belitan_C | 787 setelah penghapusan duplikat | Ditangani menggunakan median melalui SimpleImputer |
+| Nilai getaran negatif (-1) | 239 | Dianggap sebagai nilai tidak valid dan diubah menjadi NaN |
+| Penulisan kategori tipe_motor tidak konsisten | Beberapa variasi penulisan | Dinormalisasi menjadi 5.5kW, 11kW, dan 22kW |
+|  |  |  |
 
 ## Hasil
 
 | Model | [metrik utama] *validation* | [metrik utama] *test* |
 |---|---|---|
-| *Baseline*: [nama *baseline*] | | |
+| *Baseline*: linear regression | | |
 | [model final] | | |
 
 *Threshold* yang dipakai: [angka], karena [alasan bisnis].

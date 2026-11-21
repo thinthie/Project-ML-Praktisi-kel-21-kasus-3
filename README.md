@@ -21,23 +21,49 @@ Proyek ini ditujukan untuk membantu manajer dan tim pemeliharaan motor induksi d
 | Nilai kosong pada suhu_belitan_C | 787 setelah penghapusan duplikat | Ditangani menggunakan median melalui SimpleImputer |
 | Nilai getaran negatif (-1) | 239 | Dianggap sebagai nilai tidak valid dan diubah menjadi NaN |
 | Penulisan kategori tipe_motor tidak konsisten | Beberapa variasi penulisan | Dinormalisasi menjadi 5.5kW, 11kW, dan 22kW |
-|  |  |  |
+| Beban motor di atas 100% | 788 | Dipertahankan sebagai kemungkinan kondisi overload |
 
 ## Hasil
 
-| Model | [metrik utama] *validation* | [metrik utama] *test* |
+| Model | MAE *validation* | MAE *test* |
 |---|---|---|
-| *Baseline*: linear regression | | |
-| [model final] | | |
+| *Baseline*: linear regression | 35,32 hari (RUL ≤ 60); 52,58 hari (seluruh data) | 34,20 hari (RUL ≤ 60); 50,26 hari (seluruh data) |
+| [model final] | 10,87 hari (RUL ≤ 60); 44,08 hari (seluruh data) | 8,75 hari (RUL ≤ 60); 42,06 hari (seluruh data) |
 
-*Threshold* yang dipakai: [angka], karena [alasan bisnis].
+*Threshold* yang dipakai: rul_hari <= 60 hari, mengikuti ketentuan kasus untuk mengevaluasi performa prediksi pada motor yang mendekati akhir masa pakainya.
+
+Threshold status aplikasi:
+
+- SAFE: RUL lebih dari 30 hari. (Motor dapat terus dipantau)
+
+- REPLACE SOON: RUL lebih dari 7 hingga 30 hari. (Jadwalkan pemeriksaan dan persiapan penggantian)
+
+- ORDER REPLACEMENT NOW: RUL maksimal 7 hari. (Prioritaskan pemeriksaan dan proses penggantian)
+
+Threshold status tersebut merupakan aturan sementara untuk demonstrasi aplikasi dan belum divalidasi sebagai standar keselamatan atau pemeliharaan industri.
 
 ## Cara menjalankan
 
 ```bash
+Pastikan Python sudah terinstal pada komputer.
+
+Buat virtual environment:
+
+python -m venv .venv
+
+Aktifkan virtual environment pada Windows PowerShell:
+
+.\.venv\Scripts\Activate.ps1
+
+Instal seluruh dependensi:
+
 pip install -r requirements.txt
-uvicorn app.api.main:app --reload       # API
-streamlit run app/ui/streamlit_app.py   # aplikasi
+
+Jalankan aplikasi Streamlit:
+
+python -m streamlit run app.py
+
+Aplikasi dapat diakses melalui alamat lokal yang ditampilkan oleh Streamlit (http://localhost:8501).
 ```
 
 ## Struktur repositori
@@ -52,7 +78,21 @@ app/            API (FastAPI) dan antarmuka (Streamlit)
 
 ## Keterbatasan
 
-[Dalam kondisi apa model ini tidak dapat dipercaya? Data apa yang belum tersedia?]
+- Prediksi bergantung pada kualitas, kelengkapan, dan distribusi data pelatihan.
+
+- Nilai sensor yang kosong diimputasi menggunakan median dari data training. Jika banyak sensor tidak tersedia, ketidakpastian prediksi dapat meningkat.
+
+- Dataset memiliki anomali distribusi suhu belitan, termasuk sejumlah nilai pada rentang 250–372 °C yang perlu diverifikasi terhadap sumber data.
+
+- Nilai beban di atas 100% dipertahankan sebagai kemungkinan kondisi overload, tetapi interpretasi fisiknya tetap memerlukan verifikasi.
+
+- Evaluasi dilakukan menggunakan satu pembagian train-validation-test, sehingga performa pada data atau kondisi industri lain belum dapat dipastikan.
+
+- Data test pernah digunakan dalam eksperimen awal sebelum alur validation terpisah disusun ulang. Oleh karena itu, hasil test perlu ditafsirkan dengan mempertimbangkan keterbatasan proses eksperimen tersebut.
+
+- Prediksi RUL bukan pengganti pemeriksaan teknisi dan tidak boleh menjadi satu-satunya dasar keputusan keselamatan atau penggantian motor.
+
+- Kategori SAFE, REPLACE SOON, dan ORDER REPLACEMENT NOW menggunakan threshold sementara yang memerlukan validasi dari ahli pemeliharaan industri.
 
 ## Daftar periksa sebelum dikumpulkan
 

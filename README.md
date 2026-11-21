@@ -1,7 +1,7 @@
 # Project-ML-Praktisi-kel-21-kasus-3
 # [project ML] · Tim [21]
 
-**Kasus:** [3. sisa umur pakai motor induksi] · **Aplikasi:** [tautan aplikasi] · **Video:** [tautan video]
+**Kasus:** [3. sisa umur pakai motor induksi] · **Aplikasi:** [(https://prediksi-rul-motor.streamlit.app/)] · **Video:** [(https://drive.google.com/drive/folders/10BofIehbL5mQrpWb1xkRlGcQVgRMdQUL?usp=drive_link)]
 
 | Anggota | NIM | Bagian yang dikerjakan |
 |---|---|---|
@@ -45,25 +45,9 @@ Threshold status tersebut merupakan aturan sementara untuk demonstrasi aplikasi 
 ## Cara menjalankan
 
 ```bash
-Pastikan Python sudah terinstal pada komputer.
-
-Buat virtual environment:
-
-python -m venv .venv
-
-Aktifkan virtual environment pada Windows PowerShell:
-
-.\.venv\Scripts\Activate.ps1
-
-Instal seluruh dependensi:
-
 pip install -r requirements.txt
-
-Jalankan aplikasi Streamlit:
-
-python -m streamlit run app.py
-
-Aplikasi dapat diakses melalui alamat lokal yang ditampilkan oleh Streamlit (http://localhost:8501).
+uvicorn app.api.main:app --reload       # API
+streamlit run app/ui/streamlit_app.py   # aplikasi
 ```
 
 ## Struktur repositori

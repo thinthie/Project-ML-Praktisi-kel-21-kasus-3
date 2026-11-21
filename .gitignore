@@ -1,6 +1,7 @@
-
 .venv/
 __pycache__/
 *.pyc
 .streamlit/secrets.toml
 .DS_Store
+artifacts/*.joblib
+!artifacts/model_rul_random_forest_compressed.joblib

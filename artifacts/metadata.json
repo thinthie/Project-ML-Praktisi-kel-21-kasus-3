@@ -12,17 +12,27 @@
         "getaran_rms_mm_s",
         "kecepatan_rpm"
     ],
-    "metrics": {
-        "mae_all": 42.062598991296554,
-        "mae_rul_le_60": 8.751005649214253,
-        "baseline_mae_all": 50.25604244727684,
-        "baseline_mae_rul_le_60": 34.199448759987625
+    "validation_metrics": {
+        "mae_lr_all": 52.575112057609985,
+        "mae_lr_rul_le_60": 35.31667248642783,
+        "mae_rf_all": 44.079620616784794,
+        "mae_rf_rul_le_60": 10.872695757611242
+    },
+    "test_metrics": {
+        "mae_lr_all": 50.256042447276954,
+        "mae_lr_rul_le_60": 34.19944875998784,
+        "mae_rf_all": 42.045664814459904,
+        "mae_rf_rul_le_60": 8.724795939885182
     },
     "data_split": {
         "method": "GroupShuffleSplit",
-        "test_size": 0.2,
-        "random_state": 42,
-        "train_motors": 917,
+        "train_approx": 0.64,
+        "validation_approx": 0.16,
+        "test_approx": 0.2,
+        "test_random_state": 42,
+        "validation_random_state": 43,
+        "train_motors": 733,
+        "validation_motors": 184,
         "test_motors": 230
     }
 }

@@ -1,7 +1,7 @@
 # Project-ML-Praktisi-kel-21-kasus-3
 # [project ML] · Tim [21]
 
-**Kasus:** [3. sisa umur pakai motor induksi] · **Aplikasi:** [(https://prediksi-rul-motor.streamlit.app/)] · **Video:** [(https://drive.google.com/drive/folders/10BofIehbL5mQrpWb1xkRlGcQVgRMdQUL?usp=drive_link)]
+**Kasus:** [3. sisa umur pakai motor induksi] · **Aplikasi:** (https://prediksi-rul-motor.streamlit.app/) · **Video:** (https://drive.google.com/drive/folders/10BofIehbL5mQrpWb1xkRlGcQVgRMdQUL?usp=drive_link)
 
 | Anggota | NIM | Bagian yang dikerjakan |
 |---|---|---|
@@ -22,13 +22,14 @@ Proyek ini ditujukan untuk membantu manajer dan tim pemeliharaan motor induksi d
 | Nilai getaran negatif (-1) | 239 | Dianggap sebagai nilai tidak valid dan diubah menjadi NaN |
 | Penulisan kategori tipe_motor tidak konsisten | Beberapa variasi penulisan | Dinormalisasi menjadi 5.5kW, 11kW, dan 22kW |
 | Beban motor di atas 100% | 788 | Dipertahankan sebagai kemungkinan kondisi overload |
+| Distribusi suhu belitan tidak lazim | 25.201 nilai berada pada rentang 250–372°C | Dipertahankan sementara dan ditandai sebagai anomali yang perlu diverifikasi dengan sumber data.|
 
 ## Hasil
 
 | Model | MAE *validation* | MAE *test* |
 |---|---|---|
 | *Baseline*: linear regression | 35,32 hari (RUL ≤ 60); 52,58 hari (seluruh data) | 34,20 hari (RUL ≤ 60); 50,26 hari (seluruh data) |
-| [model final] | 10,87 hari (RUL ≤ 60); 44,08 hari (seluruh data) | 8,75 hari (RUL ≤ 60); 42,06 hari (seluruh data) |
+| Random Forest Regressor | 10,87 hari (RUL ≤ 60); 44,08 hari (seluruh data) | 8,75 hari (RUL ≤ 60); 42,06 hari (seluruh data) |
 
 *Threshold* yang dipakai: rul_hari <= 60 hari, mengikuti ketentuan kasus untuk mengevaluasi performa prediksi pada motor yang mendekati akhir masa pakainya.
 
@@ -44,20 +45,71 @@ Threshold status tersebut merupakan aturan sementara untuk demonstrasi aplikasi 
 
 ## Cara menjalankan
 
-```bash
+```A. Menjalankan Aplikasi Secara Lokal
+
+Pastikan perangkat sudah memiliki:
+
+- Python 3.12
+
+- Git
+
+- Koneksi internet untuk mengunduh dependensi
+
+1. Clone repository
+
+Buka terminal atau PowerShell, kemudian jalankan:
+
+git clone https://github.com/thinthie/Project-ML-Praktisi-kel-21-kasus-3.git
+
+Masuk ke folder proyek:
+
+cd Project-ML-Praktisi-kel-21-kasus-3
+
+2. Buat virtual environment
+
+python -m venv .venv
+
+Aktifkan virtual environment pada Windows PowerShell:
+
+.\.venv\Scripts\Activate.ps1
+
+3. Instal dependensi
+
+python -m pip install --upgrade pip
 pip install -r requirements.txt
-uvicorn app.api.main:app --reload       # API
-streamlit run app/ui/streamlit_app.py   # aplikasi
+
+4. Jalankan aplikasi Streamlit
+
+python -m streamlit run app.py
+
+Setelah aplikasi berjalan, buka alamat berikut melalui browser:
+
+http://localhost:8501
+
+B. Mengakses Aplikasi Secara Online
+
+klik Link aplikasi: https://prediksi-rul-motor.streamlit.app/
+
+C. Cara menggunakan aplikasi
+
+Pilih tipe motor dan lokasi motor.
+
+Masukkan jumlah hari operasi.
+
+Masukkan nilai pengukuran sensor yang tersedia (klik checkbox untuk nilai yang tidak tersedia)
+
+Klik tombol Prediksi Sisa Umur Pakai.
+
+Aplikasi akan menampilkan estimasi RUL dalam satuan hari beserta status pemeliharaan.
 ```
 
 ## Struktur repositori
 
 ```
-notebooks/      notebook dari EDA sampai penyimpanan model
-data/           data mentah (dan data bersih jika perlu)
-src/features.py fungsi pembuat fitur, dipakai saat pelatihan dan saat prediksi
-artifacts/      model.joblib + metadata.json
-app/            API (FastAPI) dan antarmuka (Streamlit)
+notebooks/        notebook dari EDA sampai penyimpanan model
+raw_data.csv      data mentah 
+artifacts/        model.joblib (terkompresi) + metadata.json
+app.py            File utama aplikasi Streamlit
 ```
 
 ## Keterbatasan
@@ -81,10 +133,10 @@ app/            API (FastAPI) dan antarmuka (Streamlit)
 ## Daftar periksa sebelum dikumpulkan
 
 - [*] Repositori bersifat publik dan setiap anggota memiliki *commit*
-- [ ] *Notebook* dapat dijalankan ulang dari awal sampai akhir tanpa galat
-- [ ] *Baseline* wajib dilaporkan dan dibandingkan
-- [ ] Data *test* hanya dibuka satu kali, di akhir
-- [ ] `artifacts/metadata.json` berisi versi model, fitur masukan, *threshold*, dan metrik
-- [ ] Aplikasi dapat dibuka orang lain melalui tautan, termasuk dari ponsel
-- [ ] Aplikasi tidak berhenti mendadak ketika menerima masukan yang tidak wajar
-- [ ] Laporan paling banyak 6 halaman dan video paling lama 5 menit
+- [*] *Notebook* dapat dijalankan ulang dari awal sampai akhir tanpa galat
+- [*] *Baseline* wajib dilaporkan dan dibandingkan
+- [*] Data *test* hanya dibuka satu kali, di akhir
+- [*] `artifacts/metadata.json` berisi versi model, fitur masukan, *threshold*, dan metrik
+- [*] Aplikasi dapat dibuka orang lain melalui tautan, termasuk dari ponsel
+- [*] Aplikasi tidak berhenti mendadak ketika menerima masukan yang tidak wajar
+- [*] Laporan paling banyak 6 halaman dan video paling lama 5 menit
